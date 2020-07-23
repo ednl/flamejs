@@ -19,17 +19,17 @@ function spoint(x, y) {
 }
 
 // Transformation function 0
-function f0(x, y) {
+function Sierpinski0(x, y) {
 	return [ x / 2, y / 2 ];
 }
 
 // Transformation function 1
-function f1(x, y) {
+function Sierpinski1(x, y) {
 	return [ (x + 1) / 2, y / 2 ];
 }
 
 // Transformation function 2
-function f2(x, y) {
+function Sierpinski2(x, y) {
 	return [ x / 2, (y + 1) / 2 ];
 }
 
@@ -53,22 +53,21 @@ function setup() {
 	noLoop();
 
 	// Transformation functions
-	F[0] = f0;
-	F[1] = f1;
-	F[2] = f2;
+	F[0] = Sierpinski0;
+	F[1] = Sierpinski1;
+	F[2] = Sierpinski2;
 
 	// Function weights
 	W[0] = 1;
 	W[1] = 1;
 	W[2] = 1;
 
-	// Normalise function weights
+	// Normalise and accumulate function weights
 	const sum = W.reduce((a, b) => a + b);
 	if (sum > 0) {
 		W = W.map(a => a / sum);
-		for (let i = 1; i < W.length; ++i) {
+		for (let i = 1; i < W.length; ++i)
 			W[i] += W[i - 1];
-		}
 	}
 }
 
@@ -84,7 +83,7 @@ function draw() {
 		for (let i = 0; i < SKIP - 1; ++i )
 			[x, y] = transform(x, y);
 
-		// Draw multiple points from here
+		// Draw multiple points from there
 		for (let i = SKIP; i < ITERATIONS; ++i ) {
 			[x, y] = transform(x, y);
 			spoint(x, y);
